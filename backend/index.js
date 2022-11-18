@@ -16,8 +16,11 @@ app.use(express.urlencoded({ extended: false }));
 require('dotenv').config();
 
 const uri = process.env.ATLAS_URI;
-const client = new MongoClient(uri);
-client.connect();
+mongoose.connect(uri).then(()=>{
+    console.log('connected to mongodb')
+}).catch((err)=>{
+    console.log(err)
+})
 const dbName = 'directory';
 
 app.use("/api/users", require("./routes/api/users"));

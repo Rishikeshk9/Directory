@@ -1,26 +1,52 @@
 const express = require("express");
 
 const router = express.Router();
-
+const multer = require("multer");
+const path = require("path");
 const uuid = require("uuid");
+const Department = require("../../models/department.model");
 
-let depts = require("../../models/department.model");
-
-router.get("/", (req, res) => {
-  depts.find()
-  .then((users) => res.json(users))
-  .catch((err) => res.status(400).json('Error: ' + err)); 
-});  
-
-router.get('/', (req, res) => {
-  MongoClient.connect(url, function(err, db) {
-      if (err) throw err;
-      var dbo = db.db("directory");
-      dbo.collection("Department").find().then((users) => res.json(users));
-  });
+const storage = multer.diskStorage({
+  destination: function (req, res, cb) {
+    cb(null, "images");
+  },
+  filename: function (req, file, cb) {
+    cb(null, uuid.v4() + "-" + Date.now() + path.extname(file.originalname));
+  },
 });
 
+const fileFilter = (req,file,cb)=>{
+  const allowedFileTypes = ['image/jpeg','image/jpg','image/png'];
+  if(allowedFileTypes.includes(file.mimetype)){
+    cb(null,true)
+  }else{
+    cb(null,false)
+  }
+}
 
+let upload = multer({storage,fileFilter})
+
+router.get("/", (req, res) => {
+  
+  Department.find()
+  .then((users) => res.json(users))
+  .catch((err) => res.status(400).json('Error: ' + err)); 
+
+});  
+
+router.post("/",upload.single('image'),async(req,res)=>{
+  try {
+    const {name,type,parent,mobile,mobile2,website,email,address1,address2,pincode,state} = req.body;
+    const image = req.file.filename
+    const depart = new Department({id:uuid.v4(),name,type,parent,mobile,mobile2,website,email,address1,address2,pincode,state,image});
+    await depart.save()
+    res.send('success');
+
+  } catch (error) {
+    console.log(error)
+    res.status(501).send('something went wrong')
+  }
+})
 
 router.get("/:id", (req, res) => {
 
