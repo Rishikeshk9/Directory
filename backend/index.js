@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require('cors');
 var mongoose = require('mongoose');
 const { MongoClient } = require('mongodb');
+const PORT = process.env.PORT || 3030;
 
 
 
@@ -28,4 +29,6 @@ app.use("/api/types", require("./routes/api/types"));
 app.use("/api/employees", require("./routes/api/employees"));
 app.use("/api/designations", require("./routes/api/designations"));
 
-app.listen(3005, () => console.log('Server started'));
+app.listen(PORT, () => {
+    console.log(`server started on port ${PORT}`);
+  });
