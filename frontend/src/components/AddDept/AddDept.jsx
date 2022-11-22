@@ -112,16 +112,17 @@ function AddDept() {
       });
   };
   return (
-    <div>
+    <div className="h-screen p-12">
+    <div className=" w-full sm:w-1/2 mx-auto shadow-md bg-white rounded-xl">
       <div className="p-5  gap-4  grid grid-cols-2">
         <input
           type={"file"}
           accept=".png, .jpg, .jpeg, "
           onChange={handleImage}
           name="image"
-          className="input input-bordered   w-full col-span-2"
+          className="file-input file-input-bordered w-full max-w-xs" 
         />
-        <input
+         <input
           type="text"
           value={deptDetails?.name}
           onChange={handleChange}
@@ -242,7 +243,7 @@ function AddDept() {
           Save
         </button>
       </div>
-    </div>
+    </div></div>
   );
 }
 

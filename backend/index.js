@@ -21,10 +21,11 @@ mongoose.connect(uri).then(()=>{
 }).catch((err)=>{
     console.log(err)
 })
-const dbName = 'directory';
+const dbName = 'directory'; 
 
-app.use("/api/users", require("./routes/api/users"));
-app.use("/api/depts", require("./routes/api/depts"));
+ app.use("/api/depts", require("./routes/api/depts"));
 app.use("/api/types", require("./routes/api/types"));
+app.use("/api/employees", require("./routes/api/employees"));
+app.use("/api/designations", require("./routes/api/designations"));
 
 app.listen(3005, () => console.log('Server started'));

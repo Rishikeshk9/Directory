@@ -36,8 +36,8 @@ function AddType() {
     });
   }
   return (
-    <div>
-      <div className="p-5  gap-4  grid grid-cols-2">
+    <div className='h-full min-h-screen p-12'>
+      <div className="p-5  gap-4  grid grid-cols-2 w-full md:w-1/2 mx-auto bg-white rounded-xl ">
       <input
           type={"file"}
           accept=".png, .jpg, .jpeg, "

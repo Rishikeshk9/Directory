@@ -5,7 +5,7 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const uuid = require("uuid");
-const Types = require("../../models/types.model");
+const Designations = require("../../models/designations.model");
 
 const storage = multer.diskStorage({
   destination: function (req, res, cb) {
@@ -28,23 +28,23 @@ const fileFilter = (req,file,cb)=>{
 let upload = multer({storage,fileFilter})
 
 router.get("/", (req, res) => {
-  Types.find()
-    .then((users) => res.json(users))
+  Designations.find()
+    .then((designations) => res.json(designations))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.post("/",upload.single('image'), async (req, res) => {
   console.log("here");
-  const { name } = req.body;
+  const name = req.body.name;
   const image = req.file?.filename
   try {
-    const type = new Types({ name: name, id: uuid.v4() ,image:image?image:null});
-    await type.save();
+    const designation = new Designations({ name: name, id: uuid.v4() ,image:image?image:null});
+    await designation.save();
     res.status(201).send("success");
   } catch (error) {
     res.status(501).send("something went wrong");
   }
-});
+}); 
 
 // router.get("/:id", (req, res) => {
 //   const found = types.some((type) => type.id === parseInt(req.params.id));
@@ -77,18 +77,18 @@ router.post("/",upload.single('image'), async (req, res) => {
 //Update type
 
 router.put("/:id", (req, res) => {
-  const found = types.some((type) => type.id === parseInt(req.params.id));
+  const found = designations.some((designation) => designation.id === parseInt(req.params.id));
 
   if (found) {
-    const updateType = req.body;
+    const updateDesignation = req.body;
 
-    types.forEach((type) => {
-      if (type.id === parseInt(req.params.id)) {
-        type.name = updateType.name ? updateType.name : type.name;
+    designations.forEach((designation) => {
+      if (designation.id === parseInt(req.params.id)) {
+        designation.name = updateDesignation.name ? updateDesignation.name : designation.name;
 
-        type.email = updateType.email ? updateType.email : type.email;
+        designation.email = updateDesignation.email ? updateDesignation.email : designation.email;
 
-        res.json({ msg: "type updated", type });
+        res.json({ msg: "designation updated", designation });
       }
     });
   } else {
@@ -99,15 +99,14 @@ router.put("/:id", (req, res) => {
 //Delete type
 
 router.delete("/:id", (req, res) => {
-  const found = types.some((type) => type.id === parseInt(req.params.id));
+  const found = designations.some((designation) => designation.id ===  req.params.id);
 
   if (found) {
-    types = types.filter((type) => type.id !== parseInt(req.params.id));
+    designations = types.filter((designation) => designation.id !==  req.params.id);
 
     res.json({
-      msg: "type deleted",
-
-      types,
+      msg: "designation deleted", 
+      designations,
     });
   } else {
     res.sendStatus(400);

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const typeSchema = new Schema(
+const designationSchema = new Schema(
   {
     id: {
       type: String,
@@ -17,5 +17,5 @@ const typeSchema = new Schema(
   { timestamps: true }
 );
 
-const Types = mongoose.model("types", typeSchema);
-module.exports = Types;
+const Designations = mongoose.model("designations", designationSchema);
+module.exports = Designations;
