@@ -65,10 +65,11 @@ function AddDesignation() {
 {/* Put this part before </body> tag */}
 <input type="checkbox" id="my-modal" className="modal-toggle" />
 <div className="modal ">
-  <div className="modal-box bg-slate-100 text-white ">
-  <div className="  gap-4  grid grid-cols-2 w-full md:w-1/2 mx-auto  rounded-xl ">
- 
-          <input  type={"file"}
+  <div className="modal-box bg-slate-100 text-black/60 ">
+  <div className="  gap-4  grid grid-cols-2 w-full   mx-auto  rounded-xl ">
+            <div className=" w-full col-span-2  mx-auto  rounded-xl">
+            <div className="   gap-4  grid grid-cols-2">
+                     <input  type={"file"}
           accept=".png, .jpg, .jpeg, "
           onChange={handleImage}
           name="image"className="file-input file-input-bordered w-full  col-span-2" />
@@ -78,19 +79,23 @@ function AddDesignation() {
           onChange={handleChange}
           name="name"
           placeholder="Name"
-          className="input input-bordered   w-full col-span-2" /><div className="modal-action">
+          className="input input-bordered   w-full col-span-2" />
+          </div>
+          
+          <div className="modal-action">
+      
       <button
           className="btn btn-success"
           onClick={() => createDesignation(designation)} >
           Save
         </button>      <label htmlFor="my-modal" className="btn  text-error btn-error btn-ghost">cancel</label>
 
-    </div>
+    </div></div>
     </div>
   </div>
 </div>
 <div className='h-full  mt-2 space-y-2'>
-      <Table data={designations}/>
+      <Table data={designations} callback={updateDesignations} what={"designations"} />
       </div>
       
       </div>

@@ -146,25 +146,15 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
 
-  const found = employees.some(employee => employee.id === parseInt(req.params.id))
+  //const found = depts.some(user => user.id === parseInt(req.params.id))
+  //const id = req.params.id;
+  Employee.findOneAndDelete(  {id:req.params.id} , res.json({
 
-  if (found) {
+    msg: "Employee deleted"
 
-    employees = employees.filter(employee => employee.id !== parseInt(req.params.id))
+  })).exec();
 
-    res.json({
-
-      msg: "Employee deleted",
-
-      employees
-
-    });
-
-  } else {
-
-    res.sendStatus(400);
-
-  }
+  console.log("Employee Deleted",req.params.id);
 
 });
 

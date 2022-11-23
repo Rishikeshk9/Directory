@@ -99,19 +99,15 @@ router.put("/:id", (req, res) => {
 //Delete type
 
 router.delete("/:id", (req, res) => {
-  const found = types.some((type) => type.id === parseInt(req.params.id));
+  //const id = req.params.id;
+  Types.findOneAndDelete(  {id:req.params.id} , res.json({
 
-  if (found) {
-    types = types.filter((type) => type.id !== parseInt(req.params.id));
+    msg: "Type deleted"
 
-    res.json({
-      msg: "type deleted",
+  })).exec();
 
-      types,
-    });
-  } else {
-    res.sendStatus(400);
-  }
+  console.log("Type Deleted",req.params.id);
+
 });
 
 module.exports = router;

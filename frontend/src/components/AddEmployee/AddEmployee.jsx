@@ -121,8 +121,8 @@ function AddEmployee() {
       {/* Put this part before </body> tag */}
       <input type="checkbox" id="my-modal" className="modal-toggle" />
       <div className="modal ">
-        <div className="modal-box bg-slate-100   ">
-          <div className="  gap-4  grid grid-cols-2 w-full md:w-1/2 mx-auto  rounded-xl ">
+        <div className="modal-box bg-slate-100  text-black/60 ">
+          <div className="  gap-4  grid grid-cols-2 w-full   mx-auto  rounded-xl ">
             <div className=" w-full col-span-2  mx-auto  rounded-xl">
               <div className="   gap-4  grid grid-cols-2">
                 <input
@@ -231,7 +231,7 @@ function AddEmployee() {
         </div>
       </div>
       <div className="h-full  mt-2 space-y-2">
-        <Table data={employees} />
+        <Table data={employees} callback={updateEmployees} what={"employees"}/>
       </div>
     </div>
   );

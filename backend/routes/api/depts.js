@@ -1,4 +1,5 @@
 const express = require("express");
+const { Types } = require("mongoose");
 
 const router = express.Router();
 const multer = require("multer");
@@ -37,7 +38,7 @@ router.get("/", (req, res) => {
 router.post("/",upload.single('image'),async(req,res)=>{
   try {
     const {name,type,parent,mobile,mobile2,website,email,address1,address2,pincode,state} = req.body;
-    const image = req.file.filename
+    const image = req.file?.filename
     const depart = new Department({id:uuid.v4(),name,type,parent,mobile,mobile2,website,email,address1,address2,pincode,state,image});
     await depart.save()
     res.send('success');
@@ -154,25 +155,32 @@ router.put("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
 
-  const found = depts.some(user => user.id === parseInt(req.params.id))
+  //const found = depts.some(user => user.id === parseInt(req.params.id))
+  //const id = req.params.id;
+  Department.findOneAndDelete(  {id:req.params.id} , res.json({
 
-  if (found) {
+    msg: "Dept deleted"
 
-    depts = depts.filter(user => user.id !== parseInt(req.params.id))
+  })).exec();
 
-    res.json({
+  console.log("Dept Deleted",req.params.id);
+  // if (found) {
 
-      msg: "Dept deleted",
+  //   depts = depts.filter(user => user.id !== parseInt(req.params.id))
 
-      depts
+  //   res.json({
 
-    });
+  //     msg: "Dept deleted",
 
-  } else {
+  //     depts
 
-    res.sendStatus(400);
+  //   });
 
-  }
+  // } else {
+
+  //   res.sendStatus(400);
+
+  // }
 
 });
 

@@ -99,18 +99,15 @@ router.put("/:id", (req, res) => {
 //Delete type
 
 router.delete("/:id", (req, res) => {
-  const found = designations.some((designation) => designation.id ===  req.params.id);
+ //const found = depts.some(user => user.id === parseInt(req.params.id))
+  //const id = req.params.id;
+  Designations.findOneAndDelete(  {id:req.params.id} , res.json({
 
-  if (found) {
-    designations = types.filter((designation) => designation.id !==  req.params.id);
+    msg: "Designation deleted"
 
-    res.json({
-      msg: "designation deleted", 
-      designations,
-    });
-  } else {
-    res.sendStatus(400);
-  }
+  })).exec();
+
+  console.log("Designation Deleted",req.params.id);
 });
 
 module.exports = router;
