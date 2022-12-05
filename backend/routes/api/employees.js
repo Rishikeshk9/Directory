@@ -36,9 +36,9 @@ router.get("/", (req, res) => {
 
 router.post("/",upload.single('image'),async(req,res)=>{
   try {
-    const {name,type,parent,mobile,mobile2,website,email,} = req.body;
+    const {name,type,parent,mobile,mobile2,website,email,department, designation} = req.body;
     const image = req.file?.filename
-    const employee = new Employee({id:uuid.v4(),name,type,parent,mobile,mobile2,website,email,image});
+    const employee = new Employee({id:uuid.v4(),name,type,parent,mobile,mobile2,website,email,image,department,designation});
     await employee.save()
     res.send('success');
 
@@ -48,19 +48,22 @@ router.post("/",upload.single('image'),async(req,res)=>{
   }
 })
 
-router.get("/:id", (req, res) => {
-
-  const found = employees.some(employee => employee.id === parseInt(req.params.id));
  
-  if (found) {
 
-    res.json(employees.filter(employee => employee.id === parseInt(req.params.id)));
+router.get("/getByDeptId/:id", (req, res) => {
 
-  } else {
-
-    res.sendStatus(400);
-
-  }
+  const found = Employee.findOne({department:req.params.id}, function (err, docs) {
+    if (err) {
+      res.sendStatus(404);
+    } else {
+       
+      if (found) {
+        res.json(docs);
+      } else {
+        res.sendStatus(400);
+      }
+    }
+  });
 
 });
 
@@ -68,8 +71,8 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
 
-  const newEmployee = new employees({
-
+  const newEmployee = new employees({ 
+    
     id: uuid.v4(),
 
     name: req.body.name,
@@ -84,9 +87,7 @@ router.post("/", (req, res) => {
 
     mobile2:req.body.mobile2,
 
-    website:req.body.website,
-    
-    
+    website:req.body.website, 
 
   });
 

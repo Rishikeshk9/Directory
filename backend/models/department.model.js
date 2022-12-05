@@ -44,6 +44,7 @@ const departmentSchema = new Schema(
     },
     image: {
       type: String,
+      default:null
     },
   },
   { timestamps: true }
