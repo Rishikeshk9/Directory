@@ -98,6 +98,26 @@ router.get("/:id", (req, res) => {
   });
 });
 
+
+
+//Get Employees based on their Departments
+router.get("/getByTypeId/:id", (req, res) => {
+
+  const found = Department.findOne({type:req.params.id}, function (err, docs) {
+    if (err) {
+      res.sendStatus(404);
+    } else {
+       
+      if (found) {
+        res.json(docs);
+      } else {
+        res.sendStatus(400);
+      }
+    }
+  });
+
+});
+
 router.post("/", (req, res) => {
   const newUser = new depts({
     id: uuid.v4(),

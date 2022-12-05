@@ -49,7 +49,7 @@ router.post("/",upload.single('image'),async(req,res)=>{
 })
 
  
-
+//Get Employees based on their Departments
 router.get("/getByDeptId/:id", (req, res) => {
 
   const found = Employee.findOne({department:req.params.id}, function (err, docs) {
