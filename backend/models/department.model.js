@@ -42,6 +42,10 @@ const departmentSchema = new Schema(
     city: {
       type: String,
     },
+    workingHours:{
+      type:String,
+      default:null
+    },
     image: {
       type: String,
       default:null

@@ -3,6 +3,7 @@ import Dropdown from "../dropdown/Dropdown";
 import axios from "axios";
 import { createDepts, fetchDepts } from "../../api/Depts";
 import Table from "../Table/Table";
+import { read, utils } from "xlsx";
 
 function AddDept() {
   const [deptDetails, setDeptDetails] = useState({
@@ -17,6 +18,7 @@ function AddDept() {
     address2: "",
     city: "",
     pincode: "",
+    workingHours: "",
     state: "",
     image: "",
   });
@@ -68,7 +70,6 @@ function AddDept() {
   }
 
   useEffect(() => {
-   
     fetchTypes();
     fetchUsers();
     fetchDepts();
@@ -83,11 +84,40 @@ function AddDept() {
     setDeptDetails({ ...deptDetails, image: e.target.files[0] });
   };
 
+  const handleExcel = async (e) => {
+    const f = await (
+       e.target.files[0]
+    ).arrayBuffer();
+    const wb = read(f);
+    const data = utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+      console.log(data);
+    //for(let i = 0;i<data.length;i++)
+    Object.keys(data).forEach(function eachKey(key) { 
+      console.log(key); //alerts key 
+      console.log(data[key]); // alerts value
+      console.log(Object.keys(data[key]).length); // alerts value
+    });
+  };
+
   function handleChangeType(e) {
     setDeptDetails({ ...deptDetails, type: e.target.value });
   }
   function handleChangeParent(e) {
     setDeptDetails({ ...deptDetails, parent: e.target.value });
+  }
+
+
+  const uploadData = (formData) =>{ 
+    axios
+      .post(`${process.env.REACT_APP_SERVER_URL}/api/depts`, formData)
+      .then(function (response) {
+        console.log(response.data);
+        fetchDepts();
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   const handleCreateDept = () => {
@@ -104,18 +134,9 @@ function AddDept() {
     formData.append("address2", deptDetails.address2);
     formData.append("city", deptDetails.city);
     formData.append("pincode", deptDetails.pincode);
+    formData.append("workingHours", deptDetails.workingHours);
     formData.append("state", deptDetails.state);
- 
-    axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/api/depts`, formData)
-      .then(function (response) {
-        console.log(response.data);
-        fetchDepts();
-        return response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    uploadData(formData);
   };
   return (
     <div className="px-12 h-screen  ">
@@ -123,6 +144,8 @@ function AddDept() {
       <label htmlFor="my-modal" className="btn btn-primary ml-auto">
         Add new
       </label>
+
+      <input onChange={handleExcel} type="file" id="excel" />
 
       {/* Put this part before </body> tag */}
       <input type="checkbox" id="my-modal" className="modal-toggle" />
@@ -231,6 +254,14 @@ function AddDept() {
                   placeholder="Address Line 2"
                   onChange={handleChange}
                   name="address2"
+                  className="input input-bordered   w-full  "
+                />
+                <input
+                  type="text"
+                  value={deptDetails.workingHours}
+                  placeholder="Time"
+                  onChange={handleChange}
+                  name="workingHours"
                   className="input input-bordered   w-full  "
                 />
                 <input

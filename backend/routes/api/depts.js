@@ -46,6 +46,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       address1,
       address2,
       pincode,
+      workingHours,
       state,
     } = req.body;
     const image = req.file?.filename;
@@ -61,6 +62,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       address1,
       address2,
       pincode,
+      workingHours,
       state,
       image,
     });
@@ -143,6 +145,8 @@ router.post("/", (req, res) => {
     city: req.body.city,
 
     pin: req.body.pin,
+
+    workingHours : req.body.workingHours,
 
     state: req.body.state,
   });
