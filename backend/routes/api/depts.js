@@ -100,7 +100,7 @@ router.get("/:id", (req, res) => {
 
 
 
-//Get Employees based on their Departments
+//Get Departments based on their Types
 router.get("/getByTypeId/:id", (req, res) => {
 
   const found = Department.findOne({type:req.params.id}, function (err, docs) {
@@ -109,7 +109,7 @@ router.get("/getByTypeId/:id", (req, res) => {
     } else {
        
       if (found) {
-        res.json(docs);
+        res.json([docs]);
       } else {
         res.sendStatus(400);
       }

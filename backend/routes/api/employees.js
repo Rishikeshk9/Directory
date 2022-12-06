@@ -58,7 +58,7 @@ router.get("/getByDeptId/:id", (req, res) => {
     } else {
        
       if (found) {
-        res.json(docs);
+        res.json([docs]);
       } else {
         res.sendStatus(400);
       }
